@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Usersidebar from './components/user/UserSidebar';
 import UserSignup from './components/common/UserSignup';
-import Signup from './components/common/UserSignup';
 import Login from './components/common/UserLogin';
 import Rsidebar from './components/Restuarant/Rsidebar';
 import Adminsidebar from './components/Admin/Adminsidebar';
@@ -25,11 +24,11 @@ function App() {
           </Route>
           <Route path='/restaurant' element={<Rsidebar />}>
             <Route path='rlogin' element={<Rlogin />} />
-            <Route path='rsignup' element={<Signup />} />
+            <Route path='rsignup' element={<UserSignup />} />
           </Route>
           <Route path='/admin' element={<Adminsidebar />}>
             <Route path='alogin' element={<Alogin />} />
-            <Route path='asignup' element={<Signup />} />
+            <Route path='asignup' element={<UserSignup />} />
           </Route>
         </Routes>
       </div>
