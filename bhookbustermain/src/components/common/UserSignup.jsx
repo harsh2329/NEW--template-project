@@ -1,11 +1,15 @@
-// Signup.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/Auth.css';
-const Signup = ({ customLinkProps }) => {
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+function UserSignup() {
+  const navigate = useNavigate();
+  const [animating, setAnimating] = useState(false);
+  
   const { 
     register, 
     handleSubmit, 
@@ -16,31 +20,48 @@ const Signup = ({ customLinkProps }) => {
   const password = React.useRef({});
   password.current = watch("password", "");
   
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
-  const onSubmit = (data) => {
-    // Handle signup logic here
-    console.log('Signup submitted:', data);
-    toast.success('Account created successfully!');
+  const onSubmit = async (data) => {
+    try {
+      data.roleId="67bfe67942572fb2ba64ef14"
+      console.log('data', data);
+      const res = await axios.post("/user", data);
+      toast.success('Account created successfully!');
+      navigate('/user/login');
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        console.log(error)
+        toast.error('An error occurred. Please try again.');
+      }
+    }
+  };
+
+  const handleLoginTransition = () => {
+    setAnimating(true);
+    setTimeout(() => {
+      navigate('/user/login');
+    }, 500); // Transition duration match karna
   };
 
   return (
-    <div className="auth-container">
+    <div className={`auth-container ${animating ? 'slide-left' : ''}`}>
       <div className="auth-left">
         <div className="auth-welcome">
           <h1>Join Us Today</h1>
           <p>Create an account and start your journey with us. It only takes a few minutes.</p>
           
           <div className="auth-switch-left">
-            <p>Already have an account?</p>
-            <Link 
-              to="/user/login" 
-              className="switch-button-left"
-              {...(customLinkProps || {})}
+            <button 
+              className="switch-button-left login-button"
+              onClick={handleLoginTransition}
             >
-              Login
-            </Link>
+              <span>Login</span>
+              <div className="button-glow"></div>
+            </button>
           </div>
         </div>
       </div>
@@ -54,7 +75,6 @@ const Signup = ({ customLinkProps }) => {
               <label htmlFor="name">Full Name</label>
               <input
                 type="text"
-                id="name"
                 placeholder="Enter your full name"
                 {...register("name", { 
                   required: "Full name is required",
@@ -63,16 +83,16 @@ const Signup = ({ customLinkProps }) => {
                     message: "Name must be at least 2 characters" 
                   } 
                 })}
-                className={errors.name ? "input-error" : ""}
+                className={errors.UserName ? "input-error" : ""}
               />
-              {errors.name && <p className="error-message">{errors.name.message}</p>}
+              {errors.UserName && <p className="error-message">{errors.UserName.message}</p>}
             </div>
             
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                id="email"
+                
                 placeholder="Enter your email"
                 {...register("email", { 
                   required: "Email is required", 
@@ -81,9 +101,9 @@ const Signup = ({ customLinkProps }) => {
                     message: "Invalid email address" 
                   } 
                 })}
-                className={errors.email ? "input-error" : ""}
+                className={errors.Email ? "input-error" : ""}
               />
-              {errors.email && <p className="error-message">{errors.email.message}</p>}
+              {errors.Email && <p className="error-message">{errors.Emailmail.message}</p>}
             </div>
             
             <div className="form-group">
@@ -91,7 +111,7 @@ const Signup = ({ customLinkProps }) => {
               <div className="password-input-wrapper">
                 <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
+                 
                   placeholder="Create a password"
                   {...register("password", { 
                     required: "Password is required",
@@ -104,7 +124,7 @@ const Signup = ({ customLinkProps }) => {
                       message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
                     }
                   })}
-                  className={errors.password ? "input-error" : ""}
+                  className={errors.Password ? "input-error" : ""}
                 />
                 <button 
                   type="button" 
@@ -114,7 +134,7 @@ const Signup = ({ customLinkProps }) => {
                   {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
-              {errors.password && <p className="error-message">{errors.password.message}</p>}
+              {errors.Password && <p className="error-message">{errors.Password.message}</p>}
             </div>
             
             <div className="form-group">
@@ -146,7 +166,7 @@ const Signup = ({ customLinkProps }) => {
               <select 
                 id="role" 
                 {...register("role", { required: "Please select a role" })}
-                className={errors.role ? "input-error" : ""}
+                className={errors.Role ? "input-error" : ""}
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -160,8 +180,9 @@ const Signup = ({ customLinkProps }) => {
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
-    </div>
-  );
-};
+      </div>
+    );
+  }
 
-export default Signup;
+
+export default UserSignup;

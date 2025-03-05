@@ -1,46 +1,36 @@
-// Login.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/Auth.css';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ customLinkProps }) => {
+const Login = ({ toggleForm }) => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  
   const { 
     register, 
     handleSubmit, 
     formState: { errors } 
   } = useForm();
   
-  const [showPassword, setShowPassword] = React.useState(false);
-  
   const onSubmit = (data) => {
-    // Handle login logic here
+    // Login logic handle karna yahan
     console.log('Login submitted:', data);
     toast.success('Logged in successfully!');
   };
 
+  const handleSignupTransition = () => {
+    setAnimating(true);
+    setTimeout(() => {
+      navigate('/user/signup');
+    }, 500); // Transition duration match karna
+  };
+
   return (
-    <div className="auth-container">
-      <div className="auth-left">
-        <div className="auth-welcome">
-          <h1>Welcome Back</h1>
-          <p>Log in to access your account and continue your journey with us.</p>
-          
-          <div className="auth-switch-left">
-            <p>New here?</p>
-            <Link 
-              to="/user/signup" 
-              className="switch-button-left"
-              {...(customLinkProps || {})}
-            >
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      </div>
-      
+    <div className={`auth-container reversed ${animating ? 'slide-right' : ''}`}>
       <div className="auth-right">
         <div className="auth-form-container">
           <div className="glow-effect"></div>
@@ -72,11 +62,7 @@ const Login = ({ customLinkProps }) => {
                   id="password"
                   placeholder="Enter your password"
                   {...register("password", { 
-                    required: "Password is required",
-                    minLength: { 
-                      value: 6, 
-                      message: "Password must be at least 6 characters" 
-                    } 
+                    required: "Password is required"
                   })}
                   className={errors.password ? "input-error" : ""}
                 />
@@ -93,16 +79,35 @@ const Login = ({ customLinkProps }) => {
             
             <div className="form-options">
               <div className="remember-me">
-                <input type="checkbox" id="remember" {...register("remember")} />
+                <input 
+                  type="checkbox" 
+                  id="remember" 
+                  {...register("remember")} 
+                />
                 <label htmlFor="remember">Remember me</label>
               </div>
-              <Link to="/forgot-password" className="forgot-password">
-                Forgot Password?
-              </Link>
+              <a href="#" className="forgot-password">Forgot Password?</a>
             </div>
             
             <button type="submit" className="auth-button">Login</button>
           </form>
+        </div>
+      </div>
+      
+      <div className="auth-left">
+        <div className="auth-welcome">
+          <h1>Welcome Back</h1>
+          <p>Glad to see you again! Sign in to continue your journey with us.</p>
+          
+          <div className="auth-switch-left">
+            <button 
+              className="switch-button-left signup-button"
+              onClick={handleSignupTransition}
+            >
+              <span>Sign Up</span>
+              <div className="button-glow"></div>
+            </button>
+          </div>
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Usersidebar from './components/user/UserSidebar';
+import UserSignup from './components/common/UserSignup';
 import Signup from './components/common/UserSignup';
 import Login from './components/common/UserLogin';
 import Rsidebar from './components/Restuarant/Rsidebar';
@@ -9,10 +10,10 @@ import './assets/css/adminlte.css';
 import './assets/css/adminlte.min.css';
 import Rlogin from './components/Restuarant/Rlogin';
 import Alogin from './components/Admin/Alogin';
-// import Login from './components/auth/Login';
-// import Signup from './components/auth/Signup';
+import axios from 'axios';
 
 function App() {
+  axios.defaults.baseURL = "http://localhost:3000";
   return (
     <div className="layout-fixed sidebar-expand-lg bg-body-tertiary app-loaded">
       <div className="app-wrapper">
@@ -20,7 +21,7 @@ function App() {
           <Route path='/' element={<Usersidebar />} />
           <Route path='/user' element={<Usersidebar />}>
             <Route path='login' element={<Login />} />
-            <Route path='signup' element={<Signup />} />
+            <Route path='signup' element={<UserSignup />} />
           </Route>
           <Route path='/restaurant' element={<Rsidebar />}>
             <Route path='rlogin' element={<Rlogin />} />
