@@ -244,7 +244,7 @@ function UserSignup() {
   
   const password = React.useRef({});
   password.current = watch("password", "");
-  
+  const [action, setAction] = useState("Sign Up");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
@@ -276,29 +276,26 @@ function UserSignup() {
   };
 
   const submitHandler = async (data) => {
+    console.log(data)
     try {
-      // Combine form data with generated userId
-      const submissionData = {
-        ...formData,
-        ...data,
-        userId: formData.userId
-      };
-
-      // Log data to console
-      console.log('Submission Data:', submissionData);
-
-      // Send data to backend
-      const res = await axios.post("/api/users/signup", submissionData);
-
-      if(res.status === 201){
-        toast.success('Account created successfully!');
-        navigate('/user/login');
-      } else {
-        toast.error("User not created");
-      }
-    } catch (error) {
-      console.error('Signup Error:', error);
-      toast.error(error.response?.data?.message || "Signup failed");
+      if (action === "Sign Up") {
+        formData.roleId = "67bd3f8a8717278a8401f812"; // Default role assignment
+        const res = await axios.post("/user", data);
+        console.log(res.data);
+        if (res.status === 201) {
+          // alert("User registered successfully!");
+          toast.success('User registered successfully!');
+           
+        
+        } else {
+            //alert("Signup failed. Please try again.");
+            toast.error('Signup failed. Please try again.');
+            
+        }
+      } 
+    } catch (err) {
+      console.log(err);
+      alert("An error occurred. Please try again later.");
     }
   };
 
@@ -413,7 +410,7 @@ function UserSignup() {
               />
               {errors.contact && <p className="error-message">{errors.contact.message}</p>}
             </div>
-
+StateSchema
             {/* Email */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
