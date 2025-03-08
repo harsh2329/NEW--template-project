@@ -16,18 +16,38 @@ const Login = ({ toggleForm }) => {
     formState: { errors } 
   } = useForm();
   
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     // Login logic handle karna yahan
-    console.log('Login submitted:', data);
-    toast.success('Logged in successfully!');
+    try {
+      const res = await axios.post("/user/login", data);
+      if (res.status === 200) {
+        toast.sucess("Login Success");
+        formData.roleId = "67bfe66642572fb2ba64ef12";
+        localStorage.setItem("id", res.data.data._id);
+        localStorage.setItem("role", res.data.data.roleId.name);
+        if (res.data.data.roleId.name === "USER") {
+          setTimeout(()=>
+            {navigate("/restaurant")},5000
+          )
+        } else if (res.data.data.roleId.name === "RESTAURANT") {
+          navigate("/restaurant");// Transition duration match karna
+      };
+      }
+    } catch (error) {
+      toast.error("Login Failed");
+    }
   };
+  };
+  
 
   const handleSignupTransition = () => {
     setAnimating(true);
+    
     setTimeout(() => {
       navigate('/user/signup');
-    }, 500); // Transition duration match karna
-  };
+    }, 500); 
+    
+    
 
   return (
     <div className={`auth-container reversed ${animating ? 'slide-right' : ''}`}>
@@ -115,4 +135,4 @@ const Login = ({ toggleForm }) => {
   );
 };
 
-export default Login;
+export default UserLogin;
