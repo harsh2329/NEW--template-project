@@ -1,7 +1,7 @@
 import React from 'react';
 import Rnav from './Rnav';
 import { Outlet } from 'react-router-dom';
-import '../../assets/css/auth.css'
+import '../../assets/css/adminlte.css';
 
 const Rsidebar = () => {
   return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import Adminnav from './Adminnav';
+import '../../assets/css/adminlte.css';
 // Remove the redundant import of Outlet
 // import { Outlet } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';

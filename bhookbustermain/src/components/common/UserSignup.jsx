@@ -282,6 +282,7 @@ function UserSignup() {
         formData.roleId = "67bd3f8a8717278a8401f812"; // Default role assignment
         const res = await axios.post("/user", data);
         console.log(res.data);
+        
         if (res.status === 201) {
           // alert("User registered successfully!");
           toast.success('User registered successfully!');
@@ -293,6 +294,11 @@ function UserSignup() {
             
         }
       } 
+      setTimeout(() => {
+       
+        navigate('/login');
+        handleLoginTransition();
+      }, 1500);
     } catch (err) {
       console.log(err);
       alert("An error occurred. Please try again later.");
@@ -302,7 +308,7 @@ function UserSignup() {
   const handleLoginTransition = () => {
     setAnimating(true);
     setTimeout(() => {
-      navigate('/user/login');
+      navigate('/login');
     }, 500);
   };
 

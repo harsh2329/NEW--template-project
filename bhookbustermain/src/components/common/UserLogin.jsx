@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios'; // Add this import
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/css/Auth.css';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ toggleForm }) => {
+const UserLogin = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -16,39 +17,39 @@ const Login = ({ toggleForm }) => {
     formState: { errors } 
   } = useForm();
   
-  const onSubmit = async(data) => {
-    // Login logic handle karna yahan
+  const onSubmit = async (data) => {
     try {
       const res = await axios.post("/user/login", data);
       if (res.status === 200) {
-        toast.sucess("Login Success");
-        formData.roleId = "67bfe66642572fb2ba64ef12";
-        localStorage.setItem("id", res.data.data._id);
-        localStorage.setItem("role", res.data.data.roleId.name);
-        if (res.data.data.roleId.name === "USER") {
-          setTimeout(()=>
-            {navigate("/restaurant")},5000
-          )
-        } else if (res.data.data.roleId.name === "RESTAURANT") {
-          navigate("/restaurant");// Transition duration match karna
-      };
+        toast.success("Login Success");
+  
+        localStorage.setItem("id", res.data.data?._id || "");
+        localStorage.setItem("role", res.data.data?.roleId?.name || "");
+  
+        if (res.data.data?.roleId?.name === "USER") {
+          navigate("/restaurant");
+        } else if (res.data.data?.roleId?.name === "RESTAURANT") {
+          navigate("/restaurant");
+        }
       }
+      setTimeout(() => {
+       
+        navigate('/user');
+        handleLoginTransition();
+      }, 1500);
     } catch (error) {
+      console.log(error);
       toast.error("Login Failed");
     }
   };
-  };
   
-
   const handleSignupTransition = () => {
     setAnimating(true);
     
-    setTimeout(() => {
-      navigate('/user/signup');
-    }, 500); 
     
-    
-
+  }; // Fixed missing closing brace
+  
+  // Moved return statement outside of handleSignupTransition
   return (
     <div className={`auth-container reversed ${animating ? 'slide-right' : ''}`}>
       <div className="auth-right">
