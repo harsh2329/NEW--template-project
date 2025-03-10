@@ -14,6 +14,7 @@ import './app.css';
 import { useEffect } from 'react';
 import LandingPage from "./components/common/LandingPage";
 import PrivateRoutes from "./hooks/PrivateRoutes";
+import LocationForm from "./components/Restuarant/LocationForm";
 
 function App() {
   useEffect(() => {
@@ -27,17 +28,19 @@ function App() {
     <div className="layout-fixed sidebar-expand-lg bg-body-tertiary app-loaded">
       <div className="app-wrapper">
         <Routes>
-        <Route path='login' element={<UserLogin />} />
-        <Route path='signup' element={<UserSignup />} />
+        <Route path='/login' element={<UserLogin />} />
+        <Route path='/signup' element={<UserSignup />} />
         <Route path='/' element={<LandingPage />} />
         
         <Route path="" element={<PrivateRoutes />}>
           <Route path='/user' element={<Usersidebar />}>
+          <Route path='locationform' element={<LocationForm />} />
            
           </Route>
           <Route path='/restaurant' element={<Rsidebar />}>
             <Route path='rlogin' element={<Rlogin />} />
             <Route path='rsignup' element={<UserSignup />} />
+           
           </Route>
           <Route path='/admin' element={<Adminsidebar />}>
             <Route path='alogin' element={<Alogin />} />

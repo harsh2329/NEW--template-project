@@ -53,9 +53,9 @@ const Rsidebar = () => {
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="./index.html" className="nav-link active">
-                      <p>Dashboard v1</p>
-                    </a>
+                    <Link to="./locationform" className="nav-link active">
+                      <p>ADD RESTAURANT</p>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <a href="./index2.html" className="nav-link">

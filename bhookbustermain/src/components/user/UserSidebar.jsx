@@ -2,6 +2,7 @@ import React from 'react'
 import UserNavbar from './UserNavbar'
 import { Outlet } from 'react-router-dom'
 import '../../assets/css/adminlte.css';
+import { Link } from 'react-router-dom';
 
 const Usersidebar = () => {
   return (
@@ -53,10 +54,10 @@ const Usersidebar = () => {
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="./index.html" className="nav-link active">
+                    <Link to="./locationform" className="nav-link active">
                       <i className="nav-icon bi bi-circle" />
-                      <p>Dashboard v1</p>
-                    </a>
+                      <p>ADD Restaurant</p>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <a href="./index2.html" className="nav-link">
