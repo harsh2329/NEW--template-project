@@ -12,6 +12,8 @@ import Alogin from './components/Admin/Alogin';
 import axios from 'axios';
 import './app.css';
 import { useEffect } from 'react';
+import LandingPage from "./components/common/LandingPage";
+import PrivateRoutes from "./hooks/PrivateRoutes";
 
 function App() {
   useEffect(() => {
@@ -27,7 +29,9 @@ function App() {
         <Routes>
         <Route path='login' element={<UserLogin />} />
         <Route path='signup' element={<UserSignup />} />
-          <Route path='/' element={<Usersidebar />} />
+        <Route path='/' element={<LandingPage />} />
+        
+        <Route path="" element={<PrivateRoutes />}>
           <Route path='/user' element={<Usersidebar />}>
            
           </Route>
@@ -38,6 +42,7 @@ function App() {
           <Route path='/admin' element={<Adminsidebar />}>
             <Route path='alogin' element={<Alogin />} />
             <Route path='asignup' element={<UserSignup />} />
+          </Route>
           </Route>
         </Routes>
       </div>
