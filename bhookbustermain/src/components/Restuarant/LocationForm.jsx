@@ -24,8 +24,10 @@ const RestaurantRegistration = () => {
     setStates(res.data.data);
   };
   const getCityByStateId = async (id) => {
-    const res = await axios.get("/city/getcitybystate/" + id);
+    const res = await axios.get("/city/getcitybystateid/" + id);
+    // console.log("cities response....", res.data);
     setCities(res.data.data);
+    // alert(id);
   };
 
   const getAreaByCityId = async (id) => {
@@ -83,7 +85,7 @@ const RestaurantRegistration = () => {
       
       setIsLoading(true);
       const response = await axios.post('/api/restaurants', data);
-      
+      //data.roleId=
       if (response.status === 201) {
         toast.success('Restaurant registered successfully!');
         setTimeout(() => {
@@ -198,7 +200,7 @@ const RestaurantRegistration = () => {
                 id="stateId"
                 {...register("stateId", { required: "State is required" })}
                 className={errors.stateId ? "input-error" : ""}
-                onChange={(e) => setSelectedState(e.target.value)}
+                onChange={(e) => getCityByStateId(e.target.value)}
               >
                 <option value="">Select State</option>
                 {states.map((state) => (
@@ -214,12 +216,12 @@ const RestaurantRegistration = () => {
                 id="cityId"
                 {...register("cityId", { required: "City is required" })}
                 className={errors.cityId ? "input-error" : ""}
-                onChange={(e) => setSelectedCity(e.target.value)}
-                disabled={!selectedState}
+                // onChange={(e) => getAreaByCityId(e.target.value)}
+                // di sabled={!selectedState}
               >
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city._id} value={city._id}>{city.name}</option>
+                <option value="">Select City</option>     
+                {cities && cities.map((city) => (
+                  <option key={city._id} value={city._id}>{city.name || city._id}</option>
                 ))}
               </select>
               {errors.cityId && <p className="error-message">{errors.cityId.message}</p>}
@@ -231,12 +233,14 @@ const RestaurantRegistration = () => {
             <select
               id="areaId"
               {...register("areaId")}
-              disabled={!selectedCity}
+              onChange={(e) => getAreaByCityId(e.target.value)}
+
+              // disabled={!selectedCity}
             >
               <option value="">Select Area (Optional)</option>
-              {areas.map(area => (
-                <option key={area._id} value={area._id}>{area.name}</option>
-              ))}
+              {areas?.map((area) => (
+                    <option key={area._id} value={area._id}>{area.name}</option>
+                  ))}
             </select>
           </div>
           
