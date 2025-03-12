@@ -31,7 +31,10 @@ const RestaurantRegistration = () => {
   };
 
   const getAreaByCityId = async (id) => {
+    console.log("city function");
+    
     const res = await axios.get("/area/getareabycity/" + id);
+    console.log(res.data);
     setAreas(res.data.data);
   };
 
@@ -84,12 +87,12 @@ const RestaurantRegistration = () => {
       data.userId = localStorage.getItem('id');
       
       setIsLoading(true);
-      const response = await axios.post('/api/restaurants', data);
+      const response = await axios.post('/location/add', data);
       //data.roleId=
       if (response.status === 201) {
         toast.success('Restaurant registered successfully!');
         setTimeout(() => {
-          navigate('/dashboard');
+          // navigate('/dashboard');
         }, 2000);
       }
     } catch (error) {
@@ -216,6 +219,7 @@ const RestaurantRegistration = () => {
                 id="cityId"
                 {...register("cityId", { required: "City is required" })}
                 className={errors.cityId ? "input-error" : ""}
+                onChange={(e) => getAreaByCityId(e.target.value)}
                 // onChange={(e) => getAreaByCityId(e.target.value)}
                 // di sabled={!selectedState}
               >
@@ -233,7 +237,7 @@ const RestaurantRegistration = () => {
             <select
               id="areaId"
               {...register("areaId")}
-              onChange={(e) => getAreaByCityId(e.target.value)}
+              
 
               // disabled={!selectedCity}
             >
@@ -307,7 +311,7 @@ const RestaurantRegistration = () => {
           <button 
             type="submit" 
             className="submit-button"
-            disabled={isLoading}
+            // disabled={isLoading}
           >
             {isLoading ? 'Processing...' : 'Register Restaurant'}
           </button>
