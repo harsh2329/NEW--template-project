@@ -42,3 +42,19 @@
 .read-the-docs {
   color: #888;
 }
+
+/* item section */
+
+.itemSection {
+  display: flex;
+  width: 100%;
+  margin-top: 100px;
+}
+
+.gallery {
+  width: 150px;
+}
+
+.gallery img {
+  width: 100%;
+}

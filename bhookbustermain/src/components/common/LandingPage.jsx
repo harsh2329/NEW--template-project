@@ -1,9 +1,11 @@
 import React from 'react'
-
+import ItemsDisplay from '../user/ItemsDisplays' 
+import UserNavbar from '../user/UserNavbar'
 const LandingPage = () => {
   return (
     <div>
-      Landing Page 
+      <UserNavbar></UserNavbar>
+       < ItemsDisplay />
     </div>
   )
 }
